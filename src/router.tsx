@@ -1,16 +1,16 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import Navbar from "./components/layouts/Root/RootLayout";
-import { AddTasks } from "./features/Task/components/services/addTasks/AddTasks";
-import { TasksEdit } from "./features/Task/components/services/TasksEdit";
+import { AddTasks } from "./features/Todo/components/services/AddTask";
+import { TaskEdit } from "./features/Todo/components/services/TaskEdit";
 
 import { supabase } from "./api/supabase";
+import { Suspense, lazy } from "react";
 
 import CreateJob from "./components/jobsForms/components/services/CreateJob";
 import Root from "./components/auth/signUp/Root";
 import JobEdit from "./components/jobsForms/components/services/JobEdit";
-import { Suspense, lazy } from "react";
-const TasksList = lazy(() => import("./features/Task/TasksList/TasksList"));
+const TasksList = lazy(() => import("./features/Todo/TasksList"));
 const FilterListingsForm = lazy(() => import("./components/jobsForms/FilterListingsForm"));
 export const router = createBrowserRouter([
     {
@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
                         children: [
                             {
                                 index: true,
-                                element: <TasksList />,
+                                element: <Suspense> <TasksList /></Suspense>,
                             },
 
                             {
@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
                                 loader: async ({ params: { taskId } }) => {
                                     return await supabase.from("Tasks").select().eq("id", taskId);
                                 },
-                                element: <TasksEdit />,
+                                element: <TaskEdit />,
                             },
                         ],
                     },

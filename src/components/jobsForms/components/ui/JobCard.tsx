@@ -8,10 +8,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 
-import {
-    Dialog,
-    DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 import {
     DropdownMenu,
@@ -30,7 +27,6 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import DialogCard from "./DialogCard";
 import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
 
-
 export default function JobCar({
     id,
     title,
@@ -43,28 +39,28 @@ export default function JobCar({
     activeCount,
     isPreviewMode,
     fullDesc,
-    applicationUrl
-}: JobType
-) {
+    applicationUrl,
+
+}: JobType) {
     const [limmits, setLimmits] = useState(activeCount);
     const navigate = useNavigate();
-
-    const [value, setValue] = useLocalStorage(`cardStatus`, "[]");
-    const [isSplash, setIsSplash] = useState<boolean>(value ? JSON.parse(value).isSplash : false);
-    const [isFavorite, setIsFavorite] = useState<boolean>(value ? JSON.parse(value).isFavorite : false);
-    const days: DaysLimmit[] = [{
-        limmit: 30,
-        price: 100
-    },
-    {
-        limmit: 60,
-        price: 175
-    },
-    {
-        limmit: 90,
-        price: 225
-    }
-    ]
+    const [value, setValue] = useLocalStorage(`cardsStatus-${id}`, "[]")
+    const [isSplash, setIsSplash] = useState<boolean>(value?.isSplash || false);
+    const [isFavorite, setIsFavorite] = useState<boolean>(value?.isFavorite || false);
+    const days: DaysLimmit[] = [
+        {
+            limmit: 30,
+            price: 100,
+        },
+        {
+            limmit: 60,
+            price: 175,
+        },
+        {
+            limmit: 90,
+            price: 225,
+        },
+    ];
 
     const USDollar = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -73,27 +69,29 @@ export default function JobCar({
 
     const deleteJob = async () => {
         await supabase.from("Jobs").delete().eq("id", id);
-    }
+        localStorage.removeItem(`cardsStatus-${id}`)
+    };
 
     const addMoreDays = async (limmit: number) => {
         if (limmit) {
-            setLimmits(prev => prev && prev + limmit);
+            setLimmits((prev) => prev && prev + limmit);
         }
-        await supabase.from("Jobs").update({ activeCount: limmits }).eq("id", id)
+        await supabase.from("Jobs").update({ activeCount: limmits }).eq("id", id);
+    };
+
+
+    const toggleSplash = () => {
+        setValue({ id: id, isFavorite, isSplash: !isSplash })
+        setIsSplash(prev => !prev)
+        console.log(isSplash)
     }
 
 
-    const toggleIsSplash = () => {
-        setIsSplash(prev => !prev);
-        setValue(JSON.stringify({ isSplash: !isSplash, isFavorite }));
+    const toggleFavorite = () => {
+        setValue({ id: id, isFavorite: !isFavorite, isSplash })
+        setIsFavorite(prev => !prev)
+        console.log(isFavorite)
     }
-
-    const toggleIsFavorite = () => {
-        setIsFavorite(prev => !prev);
-        setValue(JSON.stringify({ isSplash, isFavorite: !isFavorite }));
-    }
-
-
 
 
     return (
@@ -102,17 +100,36 @@ export default function JobCar({
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <CardTitle>{title}</CardTitle>
-                        {isPreviewMode ?
+                        {isPreviewMode ? (
                             <Button className="h-[27px]">
                                 Active - {activeCount} days left
-                            </Button> : <div>
-                                <Button variant="ghost" className="rounded-full" onClick={toggleIsSplash}>
-                                    {isSplash ? <FaRegEyeSlash className="text-[1.7rem]" /> : <FaRegEye className="text-[1.7rem]" />}
+                            </Button>
+                        ) : (
+                            <div>
+                                <Button
+                                    variant="ghost"
+                                    className="rounded-full"
+                                    onClick={toggleSplash}
+                                >
+                                    {isSplash ? (
+                                        <FaRegEyeSlash className="text-[1.7rem]" />
+                                    ) : (
+                                        <FaRegEye className="text-[1.7rem]" />
+                                    )}
                                 </Button>
-                                <Button variant="ghost" className="rounded-full" onClick={toggleIsFavorite}>
-                                    {isFavorite ? <MdOutlineFavorite className="text-red-500 text-[1.7rem]" /> : <MdFavoriteBorder className="text-[1.7rem]" />}
+                                <Button
+                                    variant="ghost"
+                                    className="rounded-full"
+                                    onClick={toggleFavorite}
+                                >
+                                    {isFavorite ? (
+                                        <MdOutlineFavorite className="text-red-500 text-[1.7rem]" />
+                                    ) : (
+                                        <MdFavoriteBorder className="text-[1.7rem]" />
+                                    )}
                                 </Button>
-                            </div>}
+                            </div>
+                        )}
                     </div>
                     <CardDescription>{companyName}</CardDescription>
                     <CardDescription>{location}</CardDescription>
@@ -134,7 +151,7 @@ export default function JobCar({
                 <CardContent className="mb-7">
                     <p>{shortDesc}</p>
                 </CardContent>
-                {isPreviewMode ?
+                {isPreviewMode ? (
                     <CardFooter className="flex items-center justify-end gap-2">
                         <Button variant="ghost" onClick={deleteJob}>
                             Delete
@@ -147,25 +164,38 @@ export default function JobCar({
                                 <Button>Extends</Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                                {days.map(day => <DropdownMenuItem onClick={() => {
-                                    addMoreDays(+day.limmit);
-                                }}>{day.limmit} Days - ${day.price} </DropdownMenuItem>)}
+                                {days.map((day) => (
+                                    <DropdownMenuItem
+                                        key={day.limmit}
+                                        onClick={() => {
+                                            addMoreDays(+day.limmit);
+                                        }}
+                                    >
+                                        {day.limmit} Days - ${day.price}{" "}
+                                    </DropdownMenuItem>
+                                ))}
                             </DropdownMenuContent>
                         </DropdownMenu>
-
-
-                    </CardFooter> :
+                    </CardFooter>
+                ) : (
                     <CardFooter className="flex items-center justify-end gap-2">
                         <Dialog>
                             <DialogTrigger>
-                                <Button>
-                                    View More
-                                </Button>
+                                <Button>View More</Button>
                             </DialogTrigger>
-                            <DialogCard title={title} companyName={companyName} salary={salary} location={location} type={type} experienceLevel={experienceLevel} fullDesc={fullDesc} applicationUrl={applicationUrl} />
+                            <DialogCard
+                                title={title}
+                                companyName={companyName}
+                                salary={salary}
+                                location={location}
+                                type={type}
+                                experienceLevel={experienceLevel}
+                                fullDesc={fullDesc}
+                                applicationUrl={applicationUrl}
+                            />
                         </Dialog>
-                    </CardFooter>}
-
+                    </CardFooter>
+                )}
             </Card>
         </div>
     );

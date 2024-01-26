@@ -13,12 +13,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 export default function CreateJob() {
     const titleRef = useRef<HTMLInputElement>(null);
     const companyRef = useRef<HTMLInputElement>(null);
     const locationRef = useRef<HTMLInputElement>(null);
     const applicationRef = useRef<HTMLInputElement>(null);
-    const salayRef = useRef<HTMLInputElement>(null);
+    const salaryRef = useRef<HTMLInputElement>(null);
     const shortDescRef = useRef<HTMLTextAreaElement>(null);
     const fullDescRef = useRef<HTMLTextAreaElement>(null);
 
@@ -27,32 +28,42 @@ export default function CreateJob() {
 
     const navigate = useNavigate();
 
-    async function addJobInfo() {
+    const URL_VALIDATION = /^(ftp|http|https):\/\/[^ "]+$/;
+
+    const addJobInfo = async () => {
         const newTitleValue = titleRef.current?.value.trim();
         const newCompanyValue = companyRef.current?.value.trim();
-        const URlVALIDATION = /^(ftp|http|https):\/\/[^ "]+$/
-        if (newTitleValue === "" || newCompanyValue === "" || !URlVALIDATION.test(applicationRef.current?.value as string)) return;
 
+        if (
+            newTitleValue === "" ||
+            newCompanyValue === "" ||
+            !URL_VALIDATION.test(applicationRef.current?.value as string)
+        ) {
+            return;
+        }
 
-        const { error } = await supabase.from("Jobs").insert({
-            title: titleRef.current?.value,
-            companyName: companyRef.current?.value,
-            location: locationRef.current?.value,
-            applicationUrl: applicationRef.current?.value,
-            shortDesc: shortDescRef.current?.value,
-            fullDesc: fullDescRef.current?.value,
-            salary: salayRef.current?.value,
+        const formData: JobFormData = {
+            title: titleRef.current?.value || "",
+            companyName: companyRef.current?.value || "",
+            location: locationRef.current?.value || undefined,
+            applicationUrl: applicationRef.current?.value || "",
+            shortDesc: shortDescRef.current?.value || undefined,
+            fullDesc: fullDescRef.current?.value || undefined,
+            salary: salaryRef.current?.value || undefined,
             type: jobType === "" ? "Any" : jobType,
             experienceLevel: experience === "" ? "Any" : experience,
-        });
+        };
 
-        if (error)
+        const { error } = await supabase.from("Jobs").insert([formData]);
+
+        if (error) {
             throw new Error(
-                "somthing went wrong with insert in the createJob component"
+                "Something went wrong with the insert in the CreateJob component"
             );
+        }
 
         navigate("/jobs");
-    }
+    };
     return (
         <>
             <div className="mb-10 flex items-center justify-between px-7">

@@ -1,4 +1,3 @@
-
 type Status = "Todo" | "Done" | "InProgress"
 type Category = "Personal" | "Work"
 type Priority = "High" | "Medium" | "Low"
@@ -28,6 +27,8 @@ type JobType = {
     salary: string,
     type: JType
     experienceLevel: ExperienceLevelType,
+    isFavorite?: string,
+    isSplash?: string,
     activeCount?: number,
     isPreviewMode?: boolean
 }
@@ -35,4 +36,25 @@ type JobType = {
 type DaysLimmit = {
     limmit: number,
     price: string | number
+}
+
+
+interface CardsStatusType {
+    statusId: string | null,
+    isFavorite: boolean,
+    isSplash: boolean
+}
+
+
+
+interface JobFormData {
+  title: string;
+  companyName: string;
+  location?: string;
+  applicationUrl: string;
+  shortDesc?: string;
+  fullDesc?: string;
+  salary?: string;
+  type: string;
+  experienceLevel: string;
 }

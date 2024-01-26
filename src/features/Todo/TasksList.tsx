@@ -19,14 +19,14 @@ import {
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { Await, Link } from "react-router-dom";
-import Task from "./Task";
+import Task from "./components/ui/Task";
 import { Suspense, useEffect, useState } from "react";
 import { supabase } from "@/api/supabase";
 import { SkeletonAmount } from "@/components/layouts/Skeleton/Skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function TasksList() {
-    const [tasksList, setTasksList] = useState<PromiseLike<TaskType[] | null>>();
+    const [tasksList, setTasksList] = useState<PromiseLike<TaskType[] | null> | null>();
 
     const fetchTasks = async () => {
         const tasksPromise = supabase
