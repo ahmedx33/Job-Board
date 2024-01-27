@@ -37,7 +37,7 @@ export default function JobEdit() {
             applicationUrl: applicationRef.current?.value,
             shortDesc: shortDescRef.current?.value,
             fullDesc: fullDescRef.current?.value,
-            salary: salayRef.current?.value,
+            minSalary: salayRef.current?.value,
             type: jobType || defaultValues?.type,
             experienceLevel: experience || defaultValues?.experienceLevel,
         } as JobType).eq("id", jobId);

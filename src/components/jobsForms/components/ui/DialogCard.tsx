@@ -4,7 +4,7 @@ import { PiMoneyDuotone } from "react-icons/pi";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
-export default function DialogCard({ title, companyName, salary, location, type, experienceLevel, fullDesc, applicationUrl }: JobType) {
+export default function DialogCard({ title, companyName, minSalary, location, type, experienceLevel, fullDesc, applicationUrl }: JobType) {
 
     const USDollar = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -22,7 +22,7 @@ export default function DialogCard({ title, companyName, salary, location, type,
                     <div className="flex items-center gap-2 my-3">
                         <Button variant="secondary" className="h-[22px] rounded-full">
                             <PiMoneyDuotone />
-                            {USDollar.format(parseInt(salary)).split(".00").join("")}
+                            {USDollar.format(parseInt(minSalary)).split(".00").join("")}
                         </Button>
                         <Button variant="secondary" className="h-[22px] rounded-full">
                             <FaCalendarAlt />

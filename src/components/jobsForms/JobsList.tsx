@@ -5,9 +5,10 @@ import { Await } from "react-router-dom";
 import JobCard from "./components/ui/JobCard";
 import { SkeletonAmount } from "../layouts/Skeleton/Skeleton";
 import CardSkeleton from "./components/ui/CardSkeleton";
-
+import useFilterData from "./context/useFilterDataContext";
 export default function JobsList() {
     const [jobsList, setJobsList] = useState<PromiseLike<JobType[]> | null>();
+    const data = useFilterData()
 
     useEffect(() => {
         const handleSubscription = async () => {
@@ -67,16 +68,23 @@ export default function JobsList() {
                 <Await resolve={jobsList}>
                     {(jobs) =>
                         jobs &&
-                        jobs.map((job: JobType) => (
-                            <JobCard
-                                key={job.id}
-                                isPreviewMode={false}
-                                {...job}
-                            />
-                        ))
-                    }
+                        jobs
+                            .filter((filteredData: FilterFormDataType) =>
+
+                                (!data?.formData.location || filteredData?.location?.toLowerCase().includes(data?.formData.location.trim().toLowerCase())) &&
+                                (!data?.formData.title || filteredData.title.toLowerCase().includes(data?.formData.title.trim().toLowerCase())) &&
+                                (data?.formData.experienceLevel === "Any" || filteredData.experienceLevel.toLowerCase().includes(data?.formData.experienceLevel.trim().toLowerCase() as string)) &&
+                                (data?.formData.type === "Any" || filteredData.type?.toLowerCase().includes(data?.formData.type.trim().toLowerCase() as string))
+
+                                && (!data?.formData.minSalary || filteredData.minSalary?.toLowerCase().includes(data?.formData.minSalary.trim()))
+                            )
+
+                            .map((job: JobType) => <JobCard key={job.id} isPreviewMode={false} {...job} />)}
                 </Await>
             </Suspense>
         </>
     );
 }
+
+
+

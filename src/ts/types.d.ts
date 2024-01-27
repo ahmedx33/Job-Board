@@ -4,7 +4,11 @@ type Priority = "High" | "Medium" | "Low"
 
 type TodoState = Status | Category | Priority
 
-type TaskType = {
+type JType = "Any" | "Full Time" | "Part Time" | "Internship"
+type ExperienceLevelType = "Any" | "Junior" | "Mid-Level" | "Senior"
+
+
+interface TaskType {
     id: string,
     title: string,
     status: Status,
@@ -12,11 +16,7 @@ type TaskType = {
     priority: Priority,
 }
 
-type JType = "Any" | "Full Time" | "Part Time" | "Internship"
-
-type ExperienceLevelType = "Any" | "Junior" | "Mid-Level" | "Senior"
-
-type JobType = {
+interface JobType {
     id?: string,
     title: string,
     companyName: string,
@@ -24,7 +24,7 @@ type JobType = {
     applicationUrl: string,
     shortDesc: string,
     fullDesc: string,
-    salary: string,
+    minSalary: string,
     type: JType
     experienceLevel: ExperienceLevelType,
     isFavorite?: string,
@@ -33,7 +33,7 @@ type JobType = {
     isPreviewMode?: boolean
 }
 
-type DaysLimmit = {
+interface DaysLimmit {
     limmit: number,
     price: string | number
 }
@@ -45,16 +45,31 @@ interface CardsStatusType {
     isSplash: boolean
 }
 
-
-
 interface JobFormData {
-  title: string;
-  companyName: string;
-  location?: string;
-  applicationUrl: string;
-  shortDesc?: string;
-  fullDesc?: string;
-  salary?: string;
-  type: string;
-  experienceLevel: string;
+    title: string;
+    companyName: string;
+    location?: string;
+    applicationUrl: string;
+    shortDesc?: string;
+    fullDesc?: string;
+    minSalary?: string;
+    type: string;
+    experienceLevel: string;
+}
+
+
+
+interface FilterFormDataType {
+
+    title: string,
+    location: string,
+    minSalary: string,
+    type: string,
+    experienceLevel: string
+
+
+}
+
+interface FilterFormContextType {
+    formData: FilterFormDataType
 }

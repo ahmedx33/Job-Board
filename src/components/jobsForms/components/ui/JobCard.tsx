@@ -32,7 +32,7 @@ export default function JobCar({
     title,
     companyName,
     location,
-    salary,
+    minSalary,
     shortDesc,
     type,
     experienceLevel,
@@ -83,15 +83,15 @@ export default function JobCar({
     const toggleSplash = () => {
         setValue({ id: id, isFavorite, isSplash: !isSplash })
         setIsSplash(prev => !prev)
-        console.log(isSplash)
+        console.log(minSalary)
     }
 
 
     const toggleFavorite = () => {
         setValue({ id: id, isFavorite: !isFavorite, isSplash })
         setIsFavorite(prev => !prev)
-        console.log(isFavorite)
     }
+
 
 
     return (
@@ -136,7 +136,7 @@ export default function JobCar({
                     <div className="flex items-center gap-2">
                         <Button variant="secondary" className="h-[22px] rounded-full">
                             <PiMoneyDuotone />{" "}
-                            {USDollar.format(parseInt(salary)).split(".00").join("")}
+                            {USDollar.format(parseInt(minSalary)).split(".00").join("")}
                         </Button>
                         <Button variant="secondary" className="h-[22px] rounded-full">
                             <FaCalendarAlt />
@@ -186,7 +186,7 @@ export default function JobCar({
                             <DialogCard
                                 title={title}
                                 companyName={companyName}
-                                salary={salary}
+                                minSalary={minSalary}
                                 location={location}
                                 type={type}
                                 experienceLevel={experienceLevel}

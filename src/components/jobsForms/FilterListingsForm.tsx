@@ -12,32 +12,44 @@ import {
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
 import JobsList from "./JobsList";
-import { useRef, useState, useEffect } from "react";
+import { createContext, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
+
+export const FilterListingsContext = createContext<FilterFormContextType | null>(null)
+
 export default function FilterListingsForm() {
     const navigate = useNavigate();
 
     const [searchParams, setSearchParams] = useSearchParams({ "title": "", "location": "", "minSalary": "", "type": "Any", "experienceLevel": "Any" })
 
-    const formData = {
+
+    const formData: FilterFormDataType = useMemo(() => ({
         title: searchParams.get("title") || "",
         location: searchParams.get("location") || "",
-        minSalary: searchParams.get("minSalary") || "0",
+        minSalary: searchParams.get("minSalary") || "",
         type: searchParams.get("type") || "Any",
         experienceLevel: searchParams.get("experienceLevel") || "Any",
+    }), [searchParams]);
+
+
+    const handleSubmit = () => {
+        setSearchParams({
+            "title": formData.title,
+            "location": formData.location,
+            "minSalary": formData.minSalary,
+            "type": formData.type,
+            "experienceLevel": formData.experienceLevel,
+        }, { replace: true });
     };
-
-
-    const handleChanges = (name: string, value: string) => {
-        return setSearchParams((prev) => {
-            prev.set(name, value)
-            return prev
-        }, { replace: true })
-    }
     const handleReset = () => {
-        setSearchParams({ "title": "", "location": "", "minSalary": "", "type": "Any", "experienceLevel": "Any" })
-    }
-
+        setSearchParams({
+            title: "",
+            location: "",
+            minSalary: "",
+            type: "Any",
+            experienceLevel: "Any"
+        })
+    };
     return (
         <div className="p-5 w-full">
             <div className="mb-10 flex items-center justify-between">
@@ -59,8 +71,8 @@ export default function FilterListingsForm() {
                         id="title"
                         type="text"
                         placeholder="Title"
-                        value={formData.title}
-                        onChange={el => handleChanges("title", el.target.value)}
+                        defaultValue={searchParams.get("title") || ""}
+                        onChange={el => formData.title = el.target.value}
                     />
                 </span>
                 <span>
@@ -75,8 +87,8 @@ export default function FilterListingsForm() {
                         id="location"
                         type="text"
                         placeholder="Location"
-                        value={formData.location}
-                        onChange={el => handleChanges("location", el.target.value)}
+                        defaultValue={searchParams.get("location") || ""}
+                        onChange={el => formData.location = el.target.value}
                     />
                 </span>
 
@@ -94,8 +106,8 @@ export default function FilterListingsForm() {
                         placeholder="Minimum Salary"
                         min={5}
                         max={1000000}
-                        value={formData.minSalary}
-                        onChange={el => handleChanges("minSalary", el.target.value)}
+                        defaultValue={searchParams.get("minSalary") || ""}
+                        onChange={el => formData.minSalary = el.target.value}
                     />
                 </span>
             </div>
@@ -108,7 +120,7 @@ export default function FilterListingsForm() {
                         Job Type
                     </label>
 
-                    <Select value={formData.type} onValueChange={el => handleChanges("type", el || "")}>
+                    <Select defaultValue={searchParams.get("type") || "Any"} onValueChange={value => formData.type = value || "Any"}>
                         <SelectTrigger className="w-[25rem] mt-3" id="jobType">
                             <SelectValue placeholder="Any" />
                         </SelectTrigger>
@@ -131,7 +143,7 @@ export default function FilterListingsForm() {
                         Experience Level
                     </label>
 
-                    <Select value={formData.experienceLevel} onValueChange={el => handleChanges("experienceLevel", el || "")}>
+                    <Select defaultValue={searchParams.get("experienceLevel") || "Any"} onValueChange={value => formData.experienceLevel = value || "Any"}>
                         <SelectTrigger className="w-[25rem] mt-3" id="Level">
                             <SelectValue placeholder="Any" />
                         </SelectTrigger>
@@ -158,8 +170,17 @@ export default function FilterListingsForm() {
                 <span className="mt-7 mx-10">
                     <Button onClick={handleReset}>reset</Button>
                 </span>
+
+                <span className="mt-7">
+                    <Button onClick={handleSubmit}>Filter</Button>
+                </span>
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mt-8">
+                <FilterListingsContext.Provider value={{ formData }}>
+                    <JobsList />
+                </FilterListingsContext.Provider>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mt-8">
                 <JobsList />
             </div>

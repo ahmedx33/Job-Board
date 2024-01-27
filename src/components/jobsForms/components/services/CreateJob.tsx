@@ -49,7 +49,7 @@ export default function CreateJob() {
             applicationUrl: applicationRef.current?.value || "",
             shortDesc: shortDescRef.current?.value || undefined,
             fullDesc: fullDescRef.current?.value || undefined,
-            salary: salaryRef.current?.value || undefined,
+            minSalary: salaryRef.current?.value || undefined,
             type: jobType === "" ? "Any" : jobType,
             experienceLevel: experience === "" ? "Any" : experience,
         };
@@ -198,7 +198,7 @@ export default function CreateJob() {
                         Salary
                     </label>
                     <Input
-                        ref={salayRef}
+                        ref={salaryRef}
                         className="my-4 w-[26rem]"
                         id="Salary"
                         type="number"
