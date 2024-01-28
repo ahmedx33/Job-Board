@@ -27,8 +27,8 @@ interface JobType {
     minSalary: string,
     type: JType
     experienceLevel: ExperienceLevelType,
-    isFavorite?: string,
-    isSplash?: string,
+    isFavoriteC?: boolean,
+    isSplashC?: boolean,
     activeCount?: number,
     isPreviewMode?: boolean
 }
@@ -60,14 +60,14 @@ interface JobFormData {
 
 
 interface FilterFormDataType {
-
+    id?: string,
     title: string,
     location: string,
     minSalary: string,
     type: string,
     experienceLevel: string
-
-
+    isSplash: boolean,
+    isFavorite: boolean
 }
 
 interface FilterFormContextType {

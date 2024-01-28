@@ -45,22 +45,31 @@ function TasksList() {
     // real time
 
     useEffect(() => {
-        const taskSubscriptin = supabase
-            .channel("jobBaord")
-            .on(
-                "postgres_changes",
-                {
-                    event: "*",
-                    schema: "public",
-                    table: "Tasks",
-                },
-                async () => {
-                    await fetchTasks();
-                }
-            )
-            .subscribe();
-
-        return () => taskSubscriptin.unsubscribe();
+        const fetchData = async () => {
+            try {
+                const result = await supabase
+                    .channel("jobBaord")
+                    .on(
+                        "postgres_changes",
+                        {
+                            event: "*",
+                            schema: "public",
+                            table: "Tasks",
+                        },
+                        async () => {
+                            await fetchTasks();
+                        }
+                    )
+                    .subscribe();
+    
+                
+                console.log(result);
+            } catch (error) {
+                console.error("Error subscribing to changes:", error);
+            }
+        };
+    
+        fetchData();
     }, []);
 
     useEffect(() => {

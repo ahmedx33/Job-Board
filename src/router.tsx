@@ -1,15 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import Navbar from "./components/layouts/Root/RootLayout";
-import { AddTasks } from "./features/Todo/components/services/AddTask";
-import { TaskEdit } from "./features/Todo/components/services/TaskEdit";
+import { AddTasks } from "./features/Todo/components/services/components/AddTask";
+import { TaskEdit } from "./features/Todo/components/services/components/TaskEdit";
 
 import { supabase } from "./api/supabase";
 import { Suspense, lazy } from "react";
 
-import CreateJob from "./components/jobsForms/components/services/CreateJob";
+import CreateJob from "./components/jobsForms/components/services/components/CreateJob";
 import Root from "./components/auth/signUp/Root";
-import JobEdit from "./components/jobsForms/components/services/JobEdit";
+import JobEdit from "./components/jobsForms/components/services/components/JobEdit";
 const TasksList = lazy(() => import("./features/Todo/TasksList"));
 const FilterListingsForm = lazy(() => import("./components/jobsForms/FilterListingsForm"));
 export const router = createBrowserRouter([

@@ -1,5 +1,4 @@
 import { Switch } from "@/components/ui/switch";
-
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import {
@@ -17,9 +16,12 @@ import { useSearchParams } from "react-router-dom";
 
 export const FilterListingsContext = createContext<FilterFormContextType | null>(null)
 
+// TODO: make the folder structure cleaner
+
+//FIX: missing prop in the job card component for shortDesc
+
 export default function FilterListingsForm() {
     const navigate = useNavigate();
-
     const [searchParams, setSearchParams] = useSearchParams({ "title": "", "location": "", "minSalary": "", "type": "Any", "experienceLevel": "Any" })
 
 
@@ -29,6 +31,8 @@ export default function FilterListingsForm() {
         minSalary: searchParams.get("minSalary") || "",
         type: searchParams.get("type") || "Any",
         experienceLevel: searchParams.get("experienceLevel") || "Any",
+        isSplash: searchParams.get("isSplash") === "true",
+        isFavorite: searchParams.get("isFavorite") === "true"
     }), [searchParams]);
 
 
@@ -39,7 +43,10 @@ export default function FilterListingsForm() {
             "minSalary": formData.minSalary,
             "type": formData.type,
             "experienceLevel": formData.experienceLevel,
+            "isSplash": formData.isSplash.toString(),
+            "isFavorite": formData.isFavorite.toString()
         }, { replace: true });
+
     };
     const handleReset = () => {
         setSearchParams({
@@ -47,9 +54,20 @@ export default function FilterListingsForm() {
             location: "",
             minSalary: "",
             type: "Any",
-            experienceLevel: "Any"
+            experienceLevel: "Any",
+            isSplash: "false",
+            isFavorite: "false"
         })
+
+        formData.title = ""
+        formData.location = ""
+        formData.minSalary = ""
+        formData.type = "Any"
+        formData.experienceLevel = "Any"
+        formData.isSplash = false
+        formData.isFavorite = false
     };
+
     return (
         <div className="p-5 w-full">
             <div className="mb-10 flex items-center justify-between">
@@ -71,7 +89,7 @@ export default function FilterListingsForm() {
                         id="title"
                         type="text"
                         placeholder="Title"
-                        defaultValue={searchParams.get("title") || ""}
+                        defaultValue={searchParams.get("title")}
                         onChange={el => formData.title = el.target.value}
                     />
                 </span>
@@ -159,11 +177,11 @@ export default function FilterListingsForm() {
                 </span>
                 <span className="mt-7">
                     <span className="flex items-center gap-2">
-                        <Switch id="ShowHidden" />
+                        <Switch defaultChecked={formData.isSplash} id="ShowHidden" onCheckedChange={value => formData.isSplash = value} />
                         <label htmlFor="ShowHidden">Show Hidden</label>
                     </span>
                     <span className="flex items-center gap-2">
-                        <Switch id="Favorites" />
+                        <Switch defaultChecked={formData.isFavorite} id="Favorites" onCheckedChange={value => formData.isFavorite = value} />
                         <label htmlFor="Favorites">Show Favorites Only</label>
                     </span>
                 </span>
@@ -180,9 +198,6 @@ export default function FilterListingsForm() {
                 <FilterListingsContext.Provider value={{ formData }}>
                     <JobsList />
                 </FilterListingsContext.Provider>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mt-8">
-                <JobsList />
             </div>
         </div>
     );

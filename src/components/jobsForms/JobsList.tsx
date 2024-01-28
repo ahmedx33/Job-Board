@@ -56,6 +56,7 @@ export default function JobsList() {
             setJobsList(null)
         }
     }, []);
+
     return (
         <>
             <Suspense
@@ -76,10 +77,13 @@ export default function JobsList() {
                                 (data?.formData.experienceLevel === "Any" || filteredData.experienceLevel.toLowerCase().includes(data?.formData.experienceLevel.trim().toLowerCase() as string)) &&
                                 (data?.formData.type === "Any" || filteredData.type?.toLowerCase().includes(data?.formData.type.trim().toLowerCase() as string))
 
-                                && (!data?.formData.minSalary || filteredData.minSalary?.toLowerCase().includes(data?.formData.minSalary.trim()))
+                                && (!data?.formData.minSalary || filteredData.minSalary?.toLowerCase().includes(data?.formData.minSalary.trim().toLowerCase()))
+
+
                             )
 
-                            .map((job: JobType) => <JobCard key={job.id} isPreviewMode={false} {...job} />)}
+                            .map((job: JobType) => <JobCard key={job.id} isFavoriteC={data?.formData.isFavorite} isSplashC={data?.formData.isSplash} isPreviewMode={false} {...job} />)}
+
                 </Await>
             </Suspense>
         </>

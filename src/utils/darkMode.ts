@@ -1,6 +1,4 @@
-
-
-const darkModeValue  = localStorage.getItem("darkMode") && localStorage.getItem("darkMode")
+const darkModeValue = localStorage.getItem("darkMode") && localStorage.getItem("darkMode")
 
 document.body.classList.add(darkModeValue as string)
 
