@@ -10,51 +10,41 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CardPreview from "../../ui/CardPreview";
 
 
 export default function CreateJob() {
-    const titleRef = useRef<HTMLInputElement>(null);
-    const companyRef = useRef<HTMLInputElement>(null);
-    const locationRef = useRef<HTMLInputElement>(null);
-    const applicationRef = useRef<HTMLInputElement>(null);
-    const salaryRef = useRef<HTMLInputElement>(null);
-    const shortDescRef = useRef<HTMLTextAreaElement>(null);
-    const fullDescRef = useRef<HTMLTextAreaElement>(null);
-
-    const [jobType, setJobType] = useState<string>("");
-    const [experience, setExperience] = useState<string>("");
-
+    const [title, setTitle] = useState<string>('');
+    const [company, setCompany] = useState<string>('');
+    const [location, setLocation] = useState<string>('');
+    const [applicationUrl, setApplicationUrl] = useState<string>('');
+    const [salary, setSalary] = useState<string>('0');
+    const [shortDesc, setShortDesc] = useState<string>('');
+    const [fullDesc, setFullDesc] = useState<string>('');
+    const [jobType, setJobType] = useState<string>('');
+    const [experience, setExperience] = useState<string>('');
+    const [showPreview, setShowPreview] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const URL_VALIDATION = /^(ftp|http|https):\/\/[^ "]+$/;
 
+
     const addJobInfo = async () => {
-        const newTitleValue = titleRef.current?.value.trim();
-        const newCompanyValue = companyRef.current?.value.trim();
+        const newTitleValue = title.trim();
+        const newCompanyValue = company.trim();
 
         if (
             newTitleValue === "" ||
             newCompanyValue === "" ||
-            !URL_VALIDATION.test(applicationRef.current?.value as string)
+            !URL_VALIDATION.test(applicationUrl)
         ) {
             return;
         }
 
-        const formData: JobFormData = {
-            title: titleRef.current?.value || "",
-            companyName: companyRef.current?.value || "",
-            location: locationRef.current?.value || undefined,
-            applicationUrl: applicationRef.current?.value || "",
-            shortDesc: shortDescRef.current?.value || undefined,
-            fullDesc: fullDescRef.current?.value || undefined,
-            minSalary: salaryRef.current?.value || undefined,
-            type: jobType === "" ? "Any" : jobType,
-            experienceLevel: experience === "" ? "Any" : experience,
-        };
 
-        const { error } = await supabase.from("Jobs").insert([formData]);
+        const { error } = await supabase.from("Jobs").insert([{ title: title }]);
 
         if (error) {
             throw new Error(
@@ -63,7 +53,7 @@ export default function CreateJob() {
         }
 
         navigate("/jobs");
-    };
+    }
     return (
         <>
             <div className="mb-10 flex items-center justify-between px-7">
@@ -80,7 +70,8 @@ export default function CreateJob() {
                         Title
                     </label>
                     <Input
-                        ref={titleRef}
+                        onChange={(e) => setTitle(e.target.value)}
+                        value={title}
                         className="my-4 w-[26rem]"
                         id="title"
                         type="text"
@@ -95,7 +86,8 @@ export default function CreateJob() {
                         Company Name
                     </label>
                     <Input
-                        ref={companyRef}
+                        onChange={(e) => setCompany(e.target.value)}
+                        value={company}
                         className="my-4 w-[26rem]"
                         id="title"
                         type="text"
@@ -110,7 +102,8 @@ export default function CreateJob() {
                         Location
                     </label>
                     <Input
-                        ref={locationRef}
+                        onChange={(e) => setLocation(e.target.value)}
+                        value={location}
                         className="my-4 w-[26rem]"
                         id="location"
                         type="text"
@@ -127,7 +120,8 @@ export default function CreateJob() {
                         Application Url
                     </label>
                     <Input
-                        ref={applicationRef}
+                        onChange={(e) => setApplicationUrl(e.target.value)}
+                        value={applicationUrl}
                         className="my-4 w-[26rem]"
                         id="Application"
                         type="text"
@@ -198,7 +192,8 @@ export default function CreateJob() {
                         Salary
                     </label>
                     <Input
-                        ref={salaryRef}
+                        onChange={(e) => setSalary(e.target.value)}
+                        value={salary}
                         className="my-4 w-[26rem]"
                         id="Salary"
                         type="number"
@@ -212,8 +207,9 @@ export default function CreateJob() {
                     >
                         Short Description
                     </label>
-                    <Textarea
-                        ref={shortDescRef}
+                    <Input
+                        onChange={(e) => setShortDesc(e.target.value)}
+                        value={shortDesc}
                         className="my-4 w-[53rem]"
                         id="Short"
                         placeholder="Short Description"
@@ -229,16 +225,21 @@ export default function CreateJob() {
                         Full Description
                     </label>
                     <Textarea
-                        ref={fullDescRef}
+                        onChange={e => setFullDesc(e.target.value)}
+                        value={fullDesc}
                         className="my-4 w-[53rem]"
-                        id="Short"
-                        placeholder="Short Description"
+                        id="fullDesc"
+                        placeholder="Full Description"
                     />
                 </span>
             </div>
             <div className="flex items-center justify-center w-full gap-5">
-                <Button variant="outline">Show Preview</Button>
+                <Button variant="outline" onClick={() => setShowPreview(prev => !prev)}>Show Preview</Button>
                 <Button onClick={addJobInfo}>Save</Button>
+            </div>
+
+            <div className="w-[460px]">
+                {showPreview && <CardPreview title={title} companyName={company} location={location} minSalary={salary} shortDesc={shortDesc} type={jobType} experienceLevel={experience} fullDesc={fullDesc} applicationUrl={applicationUrl} />}
             </div>
         </>
     );

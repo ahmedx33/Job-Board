@@ -1,17 +1,18 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import Navbar from "./components/layouts/Root/RootLayout";
-import { AddTasks } from "./features/Todo/components/services/components/AddTask";
-import { TaskEdit } from "./features/Todo/components/services/components/TaskEdit";
-
-import { supabase } from "./api/supabase";
 import { Suspense, lazy } from "react";
-
-import CreateJob from "./components/jobsForms/components/services/components/CreateJob";
+import { supabase } from "./api/supabase";
+import Navbar from "./components/layouts/Root/RootLayout";
 import Root from "./components/auth/signUp/Root";
-import JobEdit from "./components/jobsForms/components/services/components/JobEdit";
-const TasksList = lazy(() => import("./features/Todo/TasksList"));
-const FilterListingsForm = lazy(() => import("./components/jobsForms/FilterListingsForm"));
+
+// Lazy-loaded components
+const CreateJob = lazy(() => import("./components/jobsForms/components/services/components/CreateJob"));
+const JobEdit = lazy(() => import("./components/jobsForms/components/services/components/JobEdit"));
+const TaskEdit = lazy(() => import("./features/Todo/components/services/components/TaskEdit"));
+const AddTasks = lazy(() => import("./features/Todo/components/services/components/AddTask"));
+const TasksList = lazy(() => import("./features/Todo/pages/TasksList"));
+const FilterListingsForm = lazy(() => import("./components/jobsForms/pages/FilterListingsForm"));
+
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -24,41 +25,28 @@ export const router = createBrowserRouter([
                     {
                         path: "tasks",
                         children: [
-                            {
-                                index: true,
-                                element: <Suspense> <TasksList /></Suspense>,
-                            },
-
-                            {
-                                path: "new",
-                                element: <AddTasks />,
-                            },
-
+                            { index: true, element: <Suspense><TasksList /></Suspense> },
+                            { path: "new", element: <Suspense><AddTasks /></Suspense> },
                             {
                                 path: "edit/:taskId",
                                 loader: async ({ params: { taskId } }) => {
                                     return await supabase.from("Tasks").select().eq("id", taskId);
                                 },
-                                element: <TaskEdit />,
+                                element: <Suspense><TaskEdit /></Suspense>,
                             },
                         ],
                     },
-
                     {
                         path: "jobs",
                         children: [
                             { index: true, element: <Suspense><FilterListingsForm /></Suspense> },
-                            {
-                                path: "new",
-                                element: <CreateJob />,
-                            },
-
+                            { path: "new", element: <Suspense><CreateJob /></Suspense> },
                             {
                                 path: "edit/:jobId",
                                 loader: async ({ params: { jobId } }) => {
                                     return await supabase.from("Jobs").select().eq("id", jobId);
                                 },
-                                element: <JobEdit />,
+                                element: <Suspense><JobEdit /></Suspense>,
                             },
                         ],
                     },

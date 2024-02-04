@@ -14,7 +14,7 @@ import {
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function AddTasks() {
+export default function AddTasks() {
     const titleValue = useRef<HTMLInputElement>(null);
     const [status, setStatus] = useState<string>("");
     const [priority, setPriority] = useState<string>("");

@@ -2,10 +2,10 @@ import { supabase } from "@/api/supabase";
 import { PostgrestResponse } from "@supabase/supabase-js";
 import { Suspense, useEffect, useState } from "react";
 import { Await } from "react-router-dom";
-import JobCard from "./components/ui/JobCard";
-import { SkeletonAmount } from "../layouts/Skeleton/Skeleton";
-import CardSkeleton from "./components/ui/CardSkeleton";
-import useFilterData from "./context/useFilterDataContext";
+import JobCard from "../components/ui/JobCard";
+import CardSkeleton from "../components/ui/CardSkeleton";
+import useFilterData from "../context/useFilterDataContext";
+import { SkeletonAmount } from "@/components/layouts/Skeleton/Skeleton";
 export default function JobsList() {
     const [jobsList, setJobsList] = useState<PromiseLike<JobType[]> | null>();
     const data = useFilterData()

@@ -5,7 +5,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
 import salaryFormat from "@/utils/salaryFormat";
-export default function DialogCard({ title, companyName, minSalary, location, type, experienceLevel, fullDesc, applicationUrl }: Omit<JobType, "shortDesc">) {
+export default function DialogCard({ title, companyName, minSalary, location, type, experienceLevel, fullDesc, applicationUrl }: JobFormData) {
 
     return (
         <>
@@ -18,7 +18,7 @@ export default function DialogCard({ title, companyName, minSalary, location, ty
                     <div className="flex items-center gap-2 my-3">
                         <Button variant="secondary" className="h-[22px] rounded-full">
                             <PiMoneyDuotone />
-                            {salaryFormat(parseInt(minSalary))}
+                            {salaryFormat(parseInt(minSalary as string))}
                         </Button>
                         <Button variant="secondary" className="h-[22px] rounded-full">
                             <FaCalendarAlt />

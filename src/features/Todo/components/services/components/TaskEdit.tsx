@@ -15,7 +15,7 @@ import { useLoaderData, useParams } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 
 
-export function TaskEdit() {
+export default function TaskEdit() {
     const titleValue = useRef<HTMLInputElement>(null);
     const { taskId } = useParams();
     const { data } = useLoaderData() as { data: TaskType[] };

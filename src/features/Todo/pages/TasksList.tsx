@@ -19,7 +19,7 @@ import {
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { Await, Link } from "react-router-dom";
-import Task from "./components/ui/Task";
+import Task from "../components/ui/Task";
 import { Suspense, useEffect, useState } from "react";
 import { supabase } from "@/api/supabase";
 import { SkeletonAmount } from "@/components/layouts/Skeleton/Skeleton";
@@ -47,7 +47,7 @@ function TasksList() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await supabase
+                await supabase
                     .channel("jobBaord")
                     .on(
                         "postgres_changes",
@@ -61,14 +61,13 @@ function TasksList() {
                         }
                     )
                     .subscribe();
-    
-                
-                console.log(result);
+
+
             } catch (error) {
                 console.error("Error subscribing to changes:", error);
             }
         };
-    
+
         fetchData();
     }, []);
 

@@ -1,6 +1,6 @@
 import { Switch } from "@/components/ui/switch";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
@@ -15,10 +15,6 @@ import { createContext, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export const FilterListingsContext = createContext<FilterFormContextType | null>(null)
-
-// TODO: make the folder structure cleaner
-
-//FIX: missing prop in the job card component for shortDesc
 
 export default function FilterListingsForm() {
     const navigate = useNavigate();
@@ -89,7 +85,7 @@ export default function FilterListingsForm() {
                         id="title"
                         type="text"
                         placeholder="Title"
-                        defaultValue={searchParams.get("title")}
+                        defaultValue={searchParams.get("title") || ""}
                         onChange={el => formData.title = el.target.value}
                     />
                 </span>

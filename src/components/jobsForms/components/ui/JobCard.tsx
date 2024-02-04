@@ -27,7 +27,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import DialogCard from "./DialogCard";
 import salaryFormat from "@/utils/salaryFormat";
 
-export default function JobCar({
+export default function JobCard({
     id,
     title,
     companyName,
@@ -64,7 +64,7 @@ export default function JobCar({
         },
     ];
 
-   
+
 
     const deleteJob = async () => {
         await supabase.from("Jobs").delete().eq("id", id);
@@ -208,14 +208,14 @@ export default function JobCar({
                                     <Button>View More</Button>
                                 </DialogTrigger>
                                 <DialogCard
-                                        title={title}
-                                        companyName={companyName}
-                                        minSalary={minSalary}
-                                        location={location}
-                                        type={type}
-                                        experienceLevel={experienceLevel}
-                                        fullDesc={fullDesc}
-                                        applicationUrl={applicationUrl} />
+                                    title={title}
+                                    companyName={companyName}
+                                    minSalary={minSalary}
+                                    location={location}
+                                    type={type}
+                                    experienceLevel={experienceLevel}
+                                    fullDesc={fullDesc}
+                                    applicationUrl={applicationUrl} />
                             </Dialog>
                         </CardFooter>
                     )}
