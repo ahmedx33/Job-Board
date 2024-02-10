@@ -81,7 +81,7 @@ function TasksList() {
 
     // **** //
     return (
-        <div className="p-5">
+        <div className="p-5 py-10">
             <div className="flex items-center justify-between">
                 <h1 className="text-[2.5rem] text-white font-bold px-10">Tasks</h1>
                 <Button variant="outline" asChild>
@@ -89,8 +89,8 @@ function TasksList() {
                 </Button>
             </div>
 
-            <div className="tasks-lists text-white flex items-center justify-center my-5 w-full">
-                <Table className="w-[80%] border ml-[10rem]">
+            <div className="tasks-lists text-white flex items-center justify-center my-5 w-full ">
+                <Table className="w-full border ">
                     <TableHeader>
                         <TableRow>
                             <TableHead>
