@@ -29,9 +29,11 @@ function TasksList() {
     const [tasksList, setTasksList] = useState<PromiseLike<TaskType[] | null> | null>();
 
     const fetchTasks = async () => {
+        const { user } = (await supabase.auth.getUser()).data
         const tasksPromise = supabase
             .from("Tasks")
-            .select()
+            .select("*")
+            .eq("userId", user?.id)
             .order("id")
             .then(({ data, error }: PostgrestResponse<TaskType[]>) => {
                 if (error) throw new Error("error while fetching");

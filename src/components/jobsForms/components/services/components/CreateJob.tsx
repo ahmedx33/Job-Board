@@ -30,10 +30,10 @@ export default function CreateJob() {
 
     const URL_VALIDATION = /^(ftp|http|https):\/\/[^ "]+$/;
 
-
     const addJobInfo = async () => {
         const newTitleValue = title.trim();
         const newCompanyValue = company.trim();
+        const { user } = (await supabase.auth.getUser()).data
 
         if (
             newTitleValue === "" ||
@@ -43,8 +43,25 @@ export default function CreateJob() {
             return;
         }
 
+        const formData: JobFormData = {
+            title: title,
+            companyName: company,
+            location: location,
+            applicationUrl: applicationUrl,
+            shortDesc: shortDesc,
+            fullDesc: fullDesc,
+            minSalary: salary,
+            type: jobType === "" ? "Any" : jobType,
+            experienceLevel: experience === "" ? "Any" : experience,
+            userId: user?.id || ""
+        };
 
-        const { error } = await supabase.from("Jobs").insert([{ title: title }]);
+
+        console.log(formData)
+
+        const { error } = await supabase.from("Jobs").insert([formData]);
+
+
 
         if (error) {
             throw new Error(
@@ -76,6 +93,7 @@ export default function CreateJob() {
                         id="title"
                         type="text"
                         placeholder="Title"
+
                     />
                 </span>
                 <span>

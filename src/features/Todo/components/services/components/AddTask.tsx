@@ -23,6 +23,7 @@ export default function AddTasks() {
 
     const addTask = async () => {
         const newTaskTitle = titleValue.current?.value.trim();
+        const { user } = (await supabase.auth.getUser()).data
 
         if (
             newTaskTitle === "".trim() ||
@@ -38,6 +39,7 @@ export default function AddTasks() {
             status,
             priority,
             category,
+            userId: user?.id
         });
 
         if (error)

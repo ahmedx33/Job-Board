@@ -12,50 +12,97 @@ const TaskEdit = lazy(() => import("./features/Todo/components/services/componen
 const AddTasks = lazy(() => import("./features/Todo/components/services/components/AddTask"));
 const TasksList = lazy(() => import("./features/Todo/pages/TasksList"));
 const FilterListingsForm = lazy(() => import("./components/jobsForms/pages/FilterListingsForm"));
+const MyListings = lazy(() => import("./components/jobsForms/pages/MyListings"));
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Navbar />,
-        children: [
-            {
-                errorElement: <h1>error</h1>,
-                children: [
-                    { index: true, element: <Navigate to={"/tasks"} /> },
-                    {
-                        path: "tasks",
+      {
+            path: "/",
+            element: <Navbar />,
+            children: [
+                  {
+                        errorElement: <h1>error</h1>,
                         children: [
-                            { index: true, element: <Suspense><TasksList /></Suspense> },
-                            { path: "new", element: <Suspense><AddTasks /></Suspense> },
-                            {
-                                path: "edit/:taskId",
-                                loader: async ({ params: { taskId } }) => {
-                                    return await supabase.from("Tasks").select().eq("id", taskId);
-                                },
-                                element: <Suspense><TaskEdit /></Suspense>,
-                            },
+                              { index: true, element: <Navigate to={"/tasks"} /> },
+                              {
+                                    path: "tasks",
+                                    children: [
+                                          {
+                                                index: true,
+                                                element: (
+                                                      <Suspense>
+                                                            <TasksList />
+                                                      </Suspense>
+                                                ),
+                                          },
+                                          {
+                                                path: "new",
+                                                element: (
+                                                      <Suspense>
+                                                            <AddTasks />
+                                                      </Suspense>
+                                                ),
+                                          },
+                                          {
+                                                path: "edit/:taskId",
+                                                loader: async ({ params: { taskId } }) => {
+                                                      return await supabase.from("Tasks").select().eq("id", taskId);
+                                                },
+                                                element: (
+                                                      <Suspense>
+                                                            <TaskEdit />
+                                                      </Suspense>
+                                                ),
+                                          },
+                                    ],
+                              },
+                              {
+                                    path: "jobs",
+                                    children: [
+                                          {
+                                                index: true,
+                                                element: (
+                                                      <Suspense>
+                                                            <FilterListingsForm />
+                                                      </Suspense>
+                                                ),
+                                          },
+                                          {
+                                                path: "new",
+                                                element: (
+                                                      <Suspense>
+                                                            <CreateJob />
+                                                      </Suspense>
+                                                ),
+                                          },
+                                          {
+                                                path: "edit/:jobId",
+                                                loader: async ({ params: { jobId } }) => {
+                                                      return await supabase.from("Jobs").select().eq("id", jobId);
+                                                },
+                                                element: (
+                                                      <Suspense>
+                                                            <JobEdit />
+                                                      </Suspense>
+                                                ),
+                                          },
+                                          {
+                                                path: "my-listings",
+                                                element: (
+                                                      <Suspense>
+                                                            <MyListings />
+                                                      </Suspense>
+                                                ),
+                                          },
+                                    ],
+                              },
+
+                              {},
                         ],
-                    },
-                    {
-                        path: "jobs",
-                        children: [
-                            { index: true, element: <Suspense><FilterListingsForm /></Suspense> },
-                            { path: "new", element: <Suspense><CreateJob /></Suspense> },
-                            {
-                                path: "edit/:jobId",
-                                loader: async ({ params: { jobId } }) => {
-                                    return await supabase.from("Jobs").select().eq("id", jobId);
-                                },
-                                element: <Suspense><JobEdit /></Suspense>,
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        path: "signIn",
-        element: <Root />,
-    },
+                  },
+            ],
+      },
+      {
+            path: "signIn",
+            element: <Root />,
+      },
 ]);

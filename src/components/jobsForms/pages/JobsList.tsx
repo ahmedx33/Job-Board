@@ -37,7 +37,7 @@ export default function JobsList() {
     const fetchJobs = async () => {
         const jobsPromise = supabase
             .from("Jobs")
-            .select()
+            .select("*")
             .order("id")
             .then(({ data, error }: PostgrestResponse<JobType[]>) => {
                 if (error) throw new Error("error while fetching");
