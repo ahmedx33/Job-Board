@@ -31,6 +31,7 @@ interface JobType {
     isSplashC?: boolean,
     activeCount?: number,
     isPreviewMode?: boolean
+    auther?: stirng
 }
 
 interface DaysLimmit {

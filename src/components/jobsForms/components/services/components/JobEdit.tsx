@@ -45,7 +45,7 @@ export default function JobEdit() {
             toast.success("Changes Are Saved Successfully");
       };
 
-      const renderInput = (label: string, id: string, defaultValue: string | undefined, ref: Ref<HTMLInputElement> | Ref<HTMLTextAreaElement> | null, type = "text") => (
+      const renderInput = (label: string, id: string, defaultValue: string | undefined, ref: unknown, type = "text") => (
             <span>
                   <label className="text-[1.2rem] text-black dark:text-white" htmlFor={id}>
                         {label}
@@ -105,7 +105,7 @@ export default function JobEdit() {
                   </div>
                   <div className="flex items-center justify-center gap-5">
                         {renderInput("Salary", "Salary", defaultValues?.minSalary, salayRef, "number")}
-                        {renderInput("Short Description", "Short", defaultValues?.shortDesc, shortDescRef)}
+                        {renderInput("Short Description", "Short", defaultValues?.shortDesc, shortDescRef as Ref<HTMLTextAreaElement>)}
                   </div>
                   <div className="flex items-center justify-center w-full">{renderInput("Full Description", "Short", defaultValues?.shortDesc, fullDescRef)}</div>
                   <div className="flex items-center justify-center w-full gap-5">

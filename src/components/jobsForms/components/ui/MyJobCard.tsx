@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { PiMoneyDuotone } from "react-icons/pi";
 import { FaCalendarAlt } from "react-icons/fa";
@@ -10,7 +8,6 @@ import { LuGraduationCap } from "react-icons/lu";
 import { supabase } from "@/api/supabase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import DialogCard from "./DialogCard";
 import salaryFormat from "@/utils/salaryFormat";
 
 export default function MyJobCard({ id, title, companyName, location, minSalary, shortDesc, type, experienceLevel, activeCount, fullDesc, applicationUrl }: JobType) {

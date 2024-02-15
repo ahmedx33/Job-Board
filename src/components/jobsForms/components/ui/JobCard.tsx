@@ -30,6 +30,7 @@ export default function JobCard({
       applicationUrl,
       isSplashC,
       isFavoriteC,
+      auther,
 }: JobType) {
       const [limmits, setLimmits] = useState(activeCount);
       const navigate = useNavigate();
@@ -121,6 +122,7 @@ export default function JobCard({
                                                 </div>
                                           )}
                                     </div>
+                                    <CardDescription>By: {auther}</CardDescription>
                                     <CardDescription>{companyName}</CardDescription>
                                     <CardDescription>{location}</CardDescription>
                                     <div className="flex items-center gap-2">
