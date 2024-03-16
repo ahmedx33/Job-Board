@@ -66,13 +66,13 @@ export default function FilterListingsForm() {
 
     return (
         <div className="p-5 w-full">
-            <div className="mb-10 flex items-center justify-between">
+            <div className="mb-10 flex items-center justify-between max-sm:flex-col max-sm:gap-2">
                 <h1 className="text-[2rem] font-bold text-black dark:text-white">
                     Job Listings
                 </h1>
                 <Button onClick={() => navigate("new")}>Create Listings</Button>
             </div>
-            <div className="flex items-center justify-center gap-5">
+            <div className="flex items-center justify-center gap-5 max-sm:flex-col max-sm:gap-1  max-md:flex-col max-md:gap-1 max-lg:flex-col max-lg:gap-1">
                 <span>
                     <label
                         className="text-[1.2rem] text-black dark:text-white "
@@ -81,7 +81,7 @@ export default function FilterListingsForm() {
                         Title
                     </label>
                     <Input
-                        className="my-4 w-[26rem]"
+                        className="my-4 w-[26rem] max-sm:w-[20rem]"
                         id="title"
                         type="text"
                         placeholder="Title"
@@ -97,7 +97,7 @@ export default function FilterListingsForm() {
                         Location
                     </label>
                     <Input
-                        className="my-4 w-[26rem]"
+                        className="my-4 w-[26rem] max-sm:w-[20rem] "
                         id="location"
                         type="text"
                         placeholder="Location"
@@ -114,7 +114,7 @@ export default function FilterListingsForm() {
                         Minimum Salary
                     </label>
                     <Input
-                        className="my-4 w-[26rem]"
+                        className="my-4 w-[26rem] max-sm:w-[20rem]"
                         id="salary"
                         type="number"
                         placeholder="Minimum Salary"
@@ -125,7 +125,7 @@ export default function FilterListingsForm() {
                     />
                 </span>
             </div>
-            <div className="flex items-center justify-center gap-5">
+            <div className="flex items-center justify-center gap-5 max-sm:flex-col max-sm:gap-1  max-md:flex-col max-md:gap-1  max-lg:flex-col max-lg:gap-1">
                 <span>
                     <label
                         className="text-[1.2rem] text-black dark:text-white "
@@ -135,7 +135,7 @@ export default function FilterListingsForm() {
                     </label>
 
                     <Select defaultValue={searchParams.get("type") || "Any"} onValueChange={value => formData.type = value || "Any"}>
-                        <SelectTrigger className="w-[25rem] mt-3" id="jobType">
+                        <SelectTrigger className="w-[25rem] mt-3 max-sm:w-[20rem]" id="jobType">
                             <SelectValue placeholder="Any" />
                         </SelectTrigger>
                         <SelectContent>
@@ -158,7 +158,7 @@ export default function FilterListingsForm() {
                     </label>
 
                     <Select defaultValue={searchParams.get("experienceLevel") || "Any"} onValueChange={value => formData.experienceLevel = value || "Any"}>
-                        <SelectTrigger className="w-[25rem] mt-3" id="Level">
+                        <SelectTrigger className="w-[25rem] mt-3 max-sm:w-[20rem] " id="Level">
                             <SelectValue placeholder="Any" />
                         </SelectTrigger>
                         <SelectContent>
@@ -171,23 +171,25 @@ export default function FilterListingsForm() {
                         </SelectContent>
                     </Select>
                 </span>
-                <span className="mt-7">
-                    <span className="flex items-center gap-2">
-                        <Switch defaultChecked={formData.isSplash} id="ShowHidden" onCheckedChange={value => formData.isSplash = value} />
-                        <label htmlFor="ShowHidden">Show Hidden</label>
+                <div className="flex items-center">
+                    <span className="mt-7">
+                        <span className="flex items-center gap-2">
+                            <Switch defaultChecked={formData.isSplash} id="ShowHidden" onCheckedChange={value => formData.isSplash = value} />
+                            <label htmlFor="ShowHidden">Show Hidden</label>
+                        </span>
+                        <span className="flex items-center gap-2">
+                            <Switch defaultChecked={formData.isFavorite} id="Favorites" onCheckedChange={value => formData.isFavorite = value} />
+                            <label htmlFor="Favorites">Show Favorites Only</label>
+                        </span>
                     </span>
-                    <span className="flex items-center gap-2">
-                        <Switch defaultChecked={formData.isFavorite} id="Favorites" onCheckedChange={value => formData.isFavorite = value} />
-                        <label htmlFor="Favorites">Show Favorites Only</label>
+                    <span className="mt-7 mx-5">
+                        <Button onClick={handleReset}>reset</Button>
                     </span>
-                </span>
-                <span className="mt-7 mx-10">
-                    <Button onClick={handleReset}>reset</Button>
-                </span>
 
-                <span className="mt-7">
-                    <Button onClick={handleSubmit}>Filter</Button>
-                </span>
+                    <span className="mt-7">
+                        <Button onClick={handleSubmit}>Filter</Button>
+                    </span>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mt-8">
