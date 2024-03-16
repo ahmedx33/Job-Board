@@ -56,15 +56,15 @@ export default function AddTasks() {
 
     return (
         <div className="p-8">
-            <h1 className="text-[1.5rem] mb-10 font-bold">New Task</h1>
-            <div className="flex items-center justify-center gap-7 mb-16">
+            <h1 className="text-[1.5rem] mb-10 max-sm:mb-4 font-bold">New Task</h1>
+            <div className="flex items-center  justify-center flex-col gap-7  mb-16 max-sm:flex-col max-sm:gap-1  max-md:flex-col max-md:gap-1 max-lg:flex-col max-lg:gap-1">
                 <span>
                     <label htmlFor="title">Title</label>
                     <Input
                         id="title"
                         type="text"
                         placeholder="Title"
-                        className="w-[40rem] mt-3"
+                        className="w-[40rem] mt-3 max-sm:w-[20rem] max-md:w-[40rem] "
                         ref={titleValue}
                     />
                 </span>
@@ -72,7 +72,7 @@ export default function AddTasks() {
                     <label htmlFor="status">Status</label>
 
                     <Select value={status} onValueChange={(value) => setStatus(value)}>
-                        <SelectTrigger className="w-[40rem] mt-3" id="status">
+                        <SelectTrigger className="w-[40rem] mt-3 max-sm:w-[20rem] max-md:w-[40rem]" id="status">
                             <SelectValue placeholder="Select the status" />
                         </SelectTrigger>
                         <SelectContent>
@@ -85,14 +85,14 @@ export default function AddTasks() {
                     </Select>
                 </span>
             </div>
-            <div className="flex items-center justify-center gap-7">
+            <div className="flex items-center justify-center flex-col gap-7 max-sm:flex-col max-sm:gap-1  max-md:flex-col max-md:gap-1 max-lg:flex-col max-lg:gap-1">
                 <span>
                     <label htmlFor="priority">Priority</label>
                     <Select
                         value={priority}
                         onValueChange={(value) => setPriority(value)}
                     >
-                        <SelectTrigger className="w-[40rem] mt-3" id="priority">
+                        <SelectTrigger className="w-[40rem] mt-3 max-sm:w-[20rem] max-md:w-[40rem]" id="priority">
                             <SelectValue placeholder="Select the priority" />
                         </SelectTrigger>
                         <SelectContent>
@@ -111,7 +111,7 @@ export default function AddTasks() {
                         value={category}
                         onValueChange={(value) => setCategory(value)}
                     >
-                        <SelectTrigger className="w-[40rem] mt-3" id="category">
+                        <SelectTrigger className="w-[40rem] mt-3 max-sm:w-[20rem] max-md:w-[40rem]" id="category">
                             <SelectValue placeholder="Select the category" />
                         </SelectTrigger>
                         <SelectContent>
@@ -122,9 +122,9 @@ export default function AddTasks() {
                         </SelectContent>
                     </Select>
                 </span>
-            </div>
-            <div className="text-right py-10 px-[7rem]">
-                <Button onClick={addTask}>Add</Button>
+                <div className="text-right py-10  max-sm:px-0 max-md:px-0 max-lg:px-0">
+                    <Button className="max-sm:w-[20rem] max-md:w-[40rem] max-lg:w-[40rem] w-[40rem]" onClick={addTask}>Add</Button>
+                </div>
             </div>
         </div>
     );
