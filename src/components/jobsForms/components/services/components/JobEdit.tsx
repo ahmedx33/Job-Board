@@ -52,7 +52,7 @@ export default function JobEdit() {
                   <label className="text-[1.2rem] text-black dark:text-white" htmlFor={id}>
                         {label}
                   </label>
-                  <Input defaultValue={defaultValue} ref={ref as Ref<HTMLInputElement>} className="my-4 w-[26rem]" id={id} type={type} placeholder={label} />
+                  <Input defaultValue={defaultValue} ref={ref as Ref<HTMLInputElement>} className="my-4 w-[26rem] max-sm:w-[20rem]" id={id} type={type} placeholder={label} />
             </span>
       );
 
@@ -61,19 +61,19 @@ export default function JobEdit() {
                   <div className="mb-10 flex items-center justify-between px-7">
                         <h1 className="text-[2rem] font-bold text-black dark:text-white">New Listing</h1>
                   </div>
-                  <div className="flex items-center justify-center gap-5">
+                  <div className="flex items-center justify-center gap-5 max-sm:flex-col max-sm:gap-1  max-md:flex-col max-md:gap-1 max-lg:flex-col max-lg:gap-1">
                         {renderInput("Title", "title", defaultValues?.title, titleRef)}
                         {renderInput("Company Name", "company", defaultValues?.companyName, companyRef)}
                         {renderInput("Location", "location", defaultValues?.location, locationRef)}
                   </div>
-                  <div className="flex items-center justify-center gap-5">
+                  <div className="flex items-center justify-center gap-5 max-sm:flex-col max-sm:gap-1  max-md:flex-col max-md:gap-1 max-lg:flex-col max-lg:gap-1">
                         {renderInput("Application Url", "Application", defaultValues?.applicationUrl, applicationRef)}
                         <span>
                               <label className="text-[1.2rem] text-black dark:text-white " htmlFor="Type">
                                     Type
                               </label>
                               <Select value={jobType} onValueChange={(value) => setJobType(value)}>
-                                    <SelectTrigger className="w-[26rem] my-4" id="Type">
+                                    <SelectTrigger className="w-[26rem] my-4 max-sm:w-[20rem]" id="Type">
                                           <SelectValue placeholder={defaultValues?.type} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -91,7 +91,7 @@ export default function JobEdit() {
                                     Experience Level
                               </label>
                               <Select value={experience} onValueChange={(value) => setExperience(value)}>
-                                    <SelectTrigger className="w-[26rem] my-4" id="Level">
+                                    <SelectTrigger className="w-[26rem] my-4 max-sm:w-[20rem]" id="Level">
                                           <SelectValue placeholder={defaultValues?.experienceLevel} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -105,13 +105,12 @@ export default function JobEdit() {
                               </Select>
                         </span>
                   </div>
-                  <div className="flex items-center justify-center gap-5">
+                  <div className="flex items-center justify-center gap-5 max-sm:flex-col max-sm:gap-1  max-md:flex-col max-md:gap-1 max-lg:flex-col max-lg:gap-1">
                         {renderInput("Salary", "Salary", defaultValues?.minSalary, salayRef, "number")}
                         {renderInput("Short Description", "Short", defaultValues?.shortDesc, shortDescRef)}
                   </div>
                   <div className="flex items-center justify-center w-full">{renderInput("Full Description", "Short", defaultValues?.shortDesc, fullDescRef)}</div>
-                  <div className="flex items-center justify-center w-full gap-5">
-                        <Button variant="outline">Show Preview</Button>
+                  <div className="flex items-center justify-center w-full gap-5 mb-6">
                         <Button onClick={editJobInfo}>Save</Button>
                   </div>
                   <Toaster richColors />

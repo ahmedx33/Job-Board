@@ -61,14 +61,14 @@ export default function MyListings() {
 
       return (
             <>
-                  <div className="flex items-center justify-between px-8 mb-8">
+                  <div className="flex items-center justify-between px-8 mb-8 max-sm:flex-col max-sm:gap-4">
                         <h1 className="text-[2rem] font-bold">My Job Listings</h1>
                         <Link to="/jobs/new">
                               {" "}
                               <Button>Create A Listing</Button>
                         </Link>
                   </div>
-                  <div className="gridSys">
+                  <div className="gridSys mx-6">
                         <Suspense
                               fallback={
                                     <SkeletonAmount column={false} amount={2}>
