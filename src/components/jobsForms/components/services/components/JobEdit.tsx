@@ -2,9 +2,11 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLoaderData, useParams } from "react-router-dom";
-import { Ref, useRef, useState } from "react";
+import { Ref,  useRef, useState } from "react";
 import { supabase } from "@/api/supabase";
 import { Toaster, toast } from "sonner";
+
+
 
 export default function JobEdit() {
       const titleRef = useRef<HTMLInputElement>(null);
@@ -45,12 +47,12 @@ export default function JobEdit() {
             toast.success("Changes Are Saved Successfully");
       };
 
-      const renderInput = (label: string, id: string, defaultValue: string | undefined, ref: unknown, type = "text") => (
+      const renderInput = (label: string, id: string, defaultValue: string | undefined, ref: Ref<HTMLInputElement> | Ref<HTMLTextAreaElement>  , type = "text") => (
             <span>
                   <label className="text-[1.2rem] text-black dark:text-white" htmlFor={id}>
                         {label}
                   </label>
-                  <Input defaultValue={defaultValue} ref={ref} className="my-4 w-[26rem]" id={id} type={type} placeholder={label} />
+                  <Input defaultValue={defaultValue} ref={ref as Ref<HTMLInputElement>} className="my-4 w-[26rem]" id={id} type={type} placeholder={label} />
             </span>
       );
 
@@ -105,7 +107,7 @@ export default function JobEdit() {
                   </div>
                   <div className="flex items-center justify-center gap-5">
                         {renderInput("Salary", "Salary", defaultValues?.minSalary, salayRef, "number")}
-                        {renderInput("Short Description", "Short", defaultValues?.shortDesc, shortDescRef as Ref<HTMLTextAreaElement>)}
+                        {renderInput("Short Description", "Short", defaultValues?.shortDesc, shortDescRef)}
                   </div>
                   <div className="flex items-center justify-center w-full">{renderInput("Full Description", "Short", defaultValues?.shortDesc, fullDescRef)}</div>
                   <div className="flex items-center justify-center w-full gap-5">

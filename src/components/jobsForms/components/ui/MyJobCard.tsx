@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import salaryFormat from "@/utils/salaryFormat";
 
-export default function MyJobCard({ id, title, companyName, location, minSalary, shortDesc, type, experienceLevel, activeCount, fullDesc, applicationUrl }: JobType) {
+export default function MyJobCard({ id, title, companyName, location, minSalary, shortDesc, type, experienceLevel, activeCount  }: JobType) {
       const [limmits, setLimmits] = useState(activeCount);
       const navigate = useNavigate();
       const days: DaysLimmit[] = [
