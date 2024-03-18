@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useLoaderData, useParams } from "react-router-dom";
 import { Ref, useRef, useState } from "react";
 import { supabase } from "@/api/supabase";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 
 
@@ -25,6 +25,43 @@ export default function JobEdit() {
     const defaultValues = data?.[0];
 
     const editJobInfo = async () => {
+        const titleValue = titleRef.current?.value.trim();
+        const companyValue = companyRef.current?.value.trim();
+        const locationValue = locationRef.current?.value.trim();
+        const applicationValue = applicationRef.current?.value.trim();
+        const salayValue = salayRef.current?.value.trim();
+        const shortDescValue = shortDescRef.current?.value.trim();
+        const fullDescValue = fullDescRef.current?.value.trim();
+
+        if (titleValue === "".trim()) {
+            toast.error("Title Cannot Be Empty");
+            return;
+        } else if (companyValue === "".trim()) {
+            toast.error("Company Name Cannot Be Empty");
+            return;
+        } else if (locationValue === "".trim()) {
+            toast.error("Location Cannot Be Empty");
+            return;
+        } else if (applicationValue === "".trim()) {
+            toast.error("Application Url Cannot Be Empty");
+            return;
+        } else if (salayValue === "".trim()) {
+            toast.error("Salary Cannot Be Empty");
+            return;
+        } else if (shortDescValue === "".trim()) {
+            toast.error("Short Description Cannot Be Empty");
+            return;
+        } else if (fullDescValue === "".trim()) {
+            toast.error("Full Description Cannot Be Empty");
+            return
+        } else if (jobType === "") {
+            toast.error("Job Type Cannot Be Empty");
+            return
+        } else if (experience === "") {
+            toast.error("Experience Level Cannot Be Empty");
+            return
+        }
+
         const { error } = await supabase
             .from("Jobs")
             .update({
