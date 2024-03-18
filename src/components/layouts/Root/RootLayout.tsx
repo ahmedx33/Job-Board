@@ -8,9 +8,10 @@ import { addSystmeTheme, addDarkMode, addLightMode } from "@/utils/darkMode";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { supabase } from "@/api/supabase";
+import { Toaster } from "sonner";
 
 export default function RootLayout() {
-    
+
     return (
         <>
             <div className="flex  justify-between items-center py-5 px-8 border border-transparent bg-white  border-b-mainColor dark:border-b-white mb-6  dark:bg-mainColor">
@@ -23,6 +24,7 @@ export default function RootLayout() {
             </div>
 
             <Outlet />
+            <Toaster richColors />
         </>
     );
 }

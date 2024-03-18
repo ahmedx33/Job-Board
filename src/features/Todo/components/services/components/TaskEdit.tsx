@@ -26,8 +26,19 @@ export default function TaskEdit() {
     async function updataTask() {
         const newTaskTitle = titleValue.current?.value.trim();
 
-        if (newTaskTitle === "".trim()) return;
-
+        if (newTaskTitle === "".trim()) {
+            toast.error("Title Cannot Be Empty");
+            return;
+        } else if (status === "") {
+            toast.error("Status Cannot Be Empty");
+            return;
+        } else if (priority === "") {
+            toast.error("Priority Cannot Be Empty");
+            return;
+        } else if (category === "") {
+            toast.error("Category Cannot Be Empty");
+            return;
+        }
         const { error } = await supabase
             .from("Tasks")
             .update({
@@ -45,6 +56,8 @@ export default function TaskEdit() {
         toast.success("Changes Are Saved Succssuflly");
     }
 
+    console.log(data[0].status)
+
     return (
         <div className="p-8">
             <h1 className="text-[1.5rem] mb-10 font-bold">New Task</h1>
@@ -57,15 +70,15 @@ export default function TaskEdit() {
                         placeholder="Title"
                         className="w-[40rem] mt-3"
                         ref={titleValue}
-                        defaultValue={data?.map((task: TaskType) => task.title)}
+                        defaultValue={data[0].title}
                     />
                 </span>
                 <span>
                     <label htmlFor="status">Status</label>
 
-                    <Select value={status} onValueChange={(value) => setStatus(value)}>
+                    <Select value={status} onValueChange={(value) => setStatus(value)} defaultValue={data[0].status}>
                         <SelectTrigger className="w-[40rem] mt-3" id="status">
-                            <SelectValue placeholder={data.map((task) => task.status)} />
+                            <SelectValue placeholder={data[0].status} />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
@@ -83,9 +96,10 @@ export default function TaskEdit() {
                     <Select
                         value={priority}
                         onValueChange={(value) => setPriority(value)}
+                        defaultValue={data[0].priority}
                     >
                         <SelectTrigger className="w-[40rem] mt-3" id="priority">
-                            <SelectValue placeholder={data.map((task) => task.priority)} />
+                            <SelectValue placeholder={data[0].priority} />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
@@ -102,9 +116,10 @@ export default function TaskEdit() {
                     <Select
                         value={category}
                         onValueChange={(value) => setCategory(value)}
+                        defaultValue={data[0].category}
                     >
                         <SelectTrigger className="w-[40rem] mt-3" id="category">
-                            <SelectValue placeholder={data.map((task) => task.category)} />
+                            <SelectValue placeholder={data[0].category} />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
@@ -118,7 +133,6 @@ export default function TaskEdit() {
             <div className="text-right py-10 px-[7rem]">
                 <Button onClick={updataTask}>Save</Button>
             </div>
-            <Toaster richColors />
         </div>
     );
 }

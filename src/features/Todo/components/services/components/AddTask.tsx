@@ -13,6 +13,7 @@ import {
 
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function AddTasks() {
     const titleValue = useRef<HTMLInputElement>(null);
@@ -25,14 +26,20 @@ export default function AddTasks() {
         const newTaskTitle = titleValue.current?.value.trim();
         const { user } = (await supabase.auth.getUser()).data
 
-        if (
-            newTaskTitle === "".trim() ||
-            status === "" ||
-            priority === "" ||
-            category === "" ||
-            (status === "" && priority === "" && category === "")
-        )
-            return;
+        if (newTaskTitle === "".trim()) {
+            toast.error("Title Cannot Be Empty");
+            return
+        } else if (status === "") {
+            toast.error("Status Cannot Be Empty");
+            return
+        } else if (priority === "") {
+            toast.error("Priority Cannot Be Empty");
+            return
+        } else if (category === "") {
+            toast.error("Category Cannot Be Empty");
+            return
+
+        }
 
         const { error } = await supabase.from("Tasks").insert({
             title: newTaskTitle,
@@ -51,7 +58,7 @@ export default function AddTasks() {
             titleValue.current.value = "";
         }
 
-        navigate("/tasks");
+        navigate("/app/tasks");
     };
 
     return (

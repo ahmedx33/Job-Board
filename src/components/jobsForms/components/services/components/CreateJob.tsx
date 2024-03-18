@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CardPreview from "../../ui/CardPreview";
+import { toast } from "sonner";
 
 export default function CreateJob() {
     const [title, setTitle] = useState<string>("");
@@ -27,7 +28,29 @@ export default function CreateJob() {
         const newCompanyValue = company.trim();
         const { user } = (await supabase.auth.getUser()).data;
 
-        if (newTitleValue === "" || newCompanyValue === "" || !URL_VALIDATION.test(applicationUrl)) {
+        if (newTitleValue === "") {
+            toast.error("Title Cannot Be Empty");
+            return;
+        } else if (newCompanyValue === "") {
+            toast.error("Company Name Cannot Be Empty");
+            return;
+        } else if (!URL_VALIDATION.test(applicationUrl)) {
+            toast.error("Application Url Must be https://example.com or http://example.com");
+            return;
+        } else if (shortDesc === "") {
+            toast.error("Short Description Cannot Be Empty");
+            return;
+        } else if (fullDesc === "") {
+            toast.error("Full Description Cannot Be Empty");
+            return;
+        } else if (jobType === "") {
+            toast.error("Job Type Cannot Be Empty");
+            return;
+        } else if (experience === "") {
+            toast.error("Experience Level Cannot Be Empty");
+            return;
+        } else if (salary === "") {
+            toast.error("Salary Cannot Be Empty");
             return;
         }
 
@@ -50,7 +73,7 @@ export default function CreateJob() {
             throw new Error("Something went wrong with the insert in the CreateJob component");
         }
 
-        navigate("/jobs");
+        navigate("/app/jobs");
     };
     return (
         <>
@@ -144,7 +167,7 @@ export default function CreateJob() {
                     <label className="text-[1.2rem] text-black dark:text-white " htmlFor="fullDesc">
                         Full Description
                     </label>
-                    <Textarea id="fullDesc"   onChange={(e) => setFullDesc(e.target.value)} value={fullDesc} className="my-4 w-[53rem] max-sm:w-[22rem] max-md:w-[26rem] max-lg:w-[40rem] "  placeholder="Full Description" />
+                    <Textarea id="fullDesc" onChange={(e) => setFullDesc(e.target.value)} value={fullDesc} className="my-4 w-[53rem] max-sm:w-[22rem] max-md:w-[26rem] max-lg:w-[40rem] " placeholder="Full Description" />
                 </span>
             </div>
             <div className="flex items-center justify-center w-full gap-5 mb-5">

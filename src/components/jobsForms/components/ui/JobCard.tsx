@@ -147,7 +147,7 @@ export default function JobCard({
                                           <Button variant="ghost" onClick={deleteJob}>
                                                 Delete
                                           </Button>
-                                          <Button variant="outline" onClick={() => navigate(`edit /${id} `)}>
+                                          <Button variant="outline" onClick={() => navigate(`edit/${id} `)}>
                                                 Edit
                                           </Button>
                                           <DropdownMenu>

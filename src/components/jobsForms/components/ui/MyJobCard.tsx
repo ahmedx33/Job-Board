@@ -70,7 +70,7 @@ export default function MyJobCard({ id, title, companyName, location, minSalary,
                               <Button className="hover:text-red-500" variant="ghost" onClick={deleteJob}>
                                     Delete
                               </Button>
-                              <Button variant="outline" onClick={() => navigate(`/jobs/edit/${id} `)}>
+                              <Button variant="outline" onClick={() => navigate(`/app/jobs/edit/${id} `)}>
                                     Edit
                               </Button>
                               <DropdownMenu>
