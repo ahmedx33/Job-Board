@@ -11,8 +11,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useRef, useState } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
-import { Toaster, toast } from "sonner";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import {  toast } from "sonner";
 
 
 export default function TaskEdit() {
@@ -22,6 +22,7 @@ export default function TaskEdit() {
     const [status, setStatus] = useState<string>("");
     const [priority, setPriority] = useState<string>("");
     const [category, setCategory] = useState<string>("");
+    const navigate = useNavigate();
 
     async function updataTask() {
         const newTaskTitle = titleValue.current?.value.trim();
@@ -54,9 +55,10 @@ export default function TaskEdit() {
         }
 
         toast.success("Changes Are Saved Succssuflly");
+
+        navigate("/app/tasks");
     }
 
-    console.log(data[0].status)
 
     return (
         <div className="p-8">
