@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/api/supabase";
 
 export default function RootLayout() {
-
+    
     return (
         <>
             <div className="flex  justify-between items-center py-5 px-8 border border-transparent bg-white  border-b-mainColor dark:border-b-white mb-6  dark:bg-mainColor">
@@ -61,6 +61,8 @@ function LinksList() {
 
         getUserData();
     }, []);
+
+
 
     const signOutHandler = async () => {
         await supabase.auth.signOut();

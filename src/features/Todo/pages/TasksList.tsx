@@ -27,7 +27,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 function TasksList() {
     const [tasksList, setTasksList] = useState<PromiseLike<TaskType[] | null> | null>();
-
+    
     const fetchTasks = async () => {
         const { user } = (await supabase.auth.getUser()).data
         const tasksPromise = supabase
